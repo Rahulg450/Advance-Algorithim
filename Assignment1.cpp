@@ -2,31 +2,46 @@
 #include <vector>
 #include <unordered_map>
 
-std::vector<int> twoSum(const std::vector<int>& nums, int target) {
-    std::unordered_map<int, int> numIndexMap; 
-    for (int i = 0; i < nums.size(); i++) {
-        int complement = target - nums[i];
+std::vector<int> findTwoNumbers(const std::vector<int>& elements, int targetSum) {
+    std::unordered_map<int, int> elementMap;
 
-        if (numIndexMap.find(complement) != numIndexMap.end()) {
-            return {numIndexMap[complement], i};
+    for (int i = 0; i < elements.size(); ++i) {
+        int complement = targetSum - elements[i];
+
+        auto it = elementMap.find(complement);
+        if (it != elementMap.end()) {
+            return {it->second, i};
         }
 
-        numIndexMap[nums[i]] = i;
+        elementMap[elements[i]] = i;
     }
 
     return {};
 }
 
 int main() {
-    // Initialize vector using push_back
-    std::vector<int> nums = {2, 7, 11, 15};
-    int target = 9;
-    std::vector<int> result = twoSum(nums, target);
+    int numElements;
+    std::cout << "Enter the number of elements in the array: ";
+    std::cin >> numElements;
 
-    if (result.size() == 2) {
-        std::cout << "Output: [" << result[0] << ", " << result[1] << "]" << std::endl;
+    std::vector<int> elements;
+    std::cout << "Enter the elements of the array, separated by space: ";
+    for (int i = 0; i < numElements; ++i) {
+        int element;
+        std::cin >> element;
+        elements.push_back(element);
+    }
+
+    int targetSum;
+    std::cout << "Enter the target sum: ";
+    std::cin >> targetSum;
+
+    std::vector<int> resultIndices = findTwoNumbers(elements, targetSum);
+
+    if (!resultIndices.empty()) {
+        std::cout << "Result Indices: [" << resultIndices[0] << ", " << resultIndices[1] << "]" << std::endl;
     } else {
-        std::cout << "No valid solution found." << std::endl;
+        std::cout << "No solution found." << std::endl;
     }
 
     return 0;
